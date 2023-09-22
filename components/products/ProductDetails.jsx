@@ -4,7 +4,6 @@ import StarRatings from 'react-star-ratings';
 
 
 export const ProductDetails = ({product}) => {
-    
   const imgRef=useRef(null);
   const setImgPreview=(url)=>{
     imgRef.current.src=url;
