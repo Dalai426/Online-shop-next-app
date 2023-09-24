@@ -1,6 +1,8 @@
 import connectMongoDB from "@/backend/config/dbConnect";
 import Product from "@/backend/models/product";
-import { NextResponse } from "next/server";
+import APIFilters from "@/backend/utils/APIFilter";
+import { NextRequest, NextResponse } from "next/server";
+
 
 export async function POST(request) {
   const d = await request.json();
@@ -9,10 +11,18 @@ export async function POST(request) {
   return NextResponse.json(d, { status: 200 });
 }
 
-export async function GET() {
+export async function GET(req) {
   await connectMongoDB();
-  const products = await Product.find();
-  return NextResponse.json(products);
+  const resPerpage=3;
+  const allproductCount=await Product.countDocuments();
+  const apifilters= new APIFilters(Product.find(),req.nextUrl.searchParams).search().filter();
+
+  let products = await apifilters.query;
+  const filtered_product_count=products.length;
+  apifilters.pagination(resPerpage);
+  products=await apifilters.query.clone();
+
+  return NextResponse.json({allproductCount, resPerpage, filtered_product_count, products});
 }
 
 

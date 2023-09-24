@@ -2,6 +2,7 @@
 import React from "react";
 import ProductItem from "./ProductItem";
 import Filters from "../layouts/Filters";
+import CustomPagination from "../layouts/CustomPagination";
 
 
 
@@ -13,9 +14,12 @@ const ListProducts = ({ data }) => {
         <div className="flex flex-col md:flex-row -mx-4">
         <Filters/>
         <main className="md:w-2/3 lg:w-3/4 px-3">
-            {data?.map((product) => (
+            {data?.products?.map((product) => (
               <ProductItem key={product?._id} product={product}/>
             ))}
+            <CustomPagination
+            resPerPage={data?.resPerpage}
+            productCount={data?.filtered_product_count}/>
         </main>
         </div>
       </div>

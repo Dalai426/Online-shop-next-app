@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef } from 'react';
 import StarRatings from 'react-star-ratings';
+import BreadCrumbs from '../layouts/BreadCrumbs';
 
 
 export const ProductDetails = ({product}) => {
@@ -8,9 +9,14 @@ export const ProductDetails = ({product}) => {
   const setImgPreview=(url)=>{
     imgRef.current.src=url;
   }
-   const inStock=product?.stock>=1;
+  const breadCrumbs=[
+    {name:"Home", url:'/'},
+    {name:`${product?.name?.substring(0,100)} ...`,url:`/product/${product?._id}`}
+  ];
+  const inStock=product?.stock>=1;
   return (
     <>
+    <BreadCrumbs breadCrumbs={breadCrumbs}/>
     <section className="bg-white py-10">
       <div className="container max-w-screen-xl mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-5">
