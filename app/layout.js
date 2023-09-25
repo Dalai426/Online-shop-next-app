@@ -2,6 +2,7 @@ import Headers from '@/components/layouts/Headers'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import Head from './head'
+import { GlobalProvider } from './GlobalProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,8 +16,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <Head/>
       <body>
+        <GlobalProvider>
         <Headers/>
         {children}
+        </GlobalProvider>
       </body>
     </html>
   )
