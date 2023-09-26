@@ -18,6 +18,8 @@ const Headers = () => {
     }
   }, [data]);
 
+
+
   const { cart } = useContext(CartContext);
   const cartItems = cart?.cartItems;
 

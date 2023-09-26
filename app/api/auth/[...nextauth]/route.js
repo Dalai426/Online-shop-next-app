@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
 import User from "@/backend/models/user";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/backend/config/dbConnect";
@@ -36,6 +35,17 @@ async function auth(req, res) {
         },
       }),
     ],
+    callbacks:{
+      jwt:async({token,user})=>{
+        user&&(token.user=user);
+        return token;
+      },
+      session:async({session,token})=>{
+        session.user=token.user;
+        delete session?.user?.password
+        return session;
+      }
+    },
     pages: {
       signIn: "/login",
     },
