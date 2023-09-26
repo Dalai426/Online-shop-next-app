@@ -277,6 +277,11 @@ cookie@^0.5.0:
   resolved "https://registry.npmjs.org/cookie/-/cookie-0.5.0.tgz"
   integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
 
+countries-list@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/countries-list/-/countries-list-3.0.1.tgz"
+  integrity sha512-SKsTld6jDTHVGGEg6/1FEQXMJ7EeAFWFq2u+flrvdIeb19BYtNwnqvfaCvutQv3Yb9B44Wfhly4WXNBePIaCuA==
+
 cssesc@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/cssesc/-/cssesc-3.0.0.tgz"
