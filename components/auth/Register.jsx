@@ -8,7 +8,8 @@ import AuthContext from "@/context/AuthContext";
 
 
 const Register = () => {
-    
+
+
     const {error,registerUser, clearError}=useContext(AuthContext);
 
     const [name, setName] = useState("");

@@ -7,17 +7,31 @@ import { countries } from "countries-list";
 import AuthContext from "@/context/AuthContext";
 import { toast } from "react-toastify";
 
-const NewAddress = () => {
-    const { error, addNewAddress, clearError } = useContext(AuthContext);
+const UpdateAddress = ({id, address}) => {
+    const { error,clearError,updateAddress,setUpdated,updated, deleteAddress} = useContext(AuthContext);
 
     const countriesList = Object.values(countries);
 
-    const [street, setStreet] = useState("");
-    const [city, setCity] = useState("");
-    const [state, setState] = useState("");
-    const [zipCode, setZipCode] = useState("");
-    const [phoneNo, setPhonoNo] = useState("");
-    const [country, setCountry] = useState(countriesList[0].name);
+    
+    console.log(address);
+    const [street, setStreet] = useState(address?.street);
+    const [city, setCity] = useState(address?.city);
+    const [state, setState] = useState(address?.state);
+    const [zipCode, setZipCode] = useState(address?.zipCode);
+    const [phoneNo, setPhoneNo] = useState(address?.phoneNo);
+    const [country, setCountry] = useState(address?.street);
+
+
+    useEffect(()=>{
+        if(updated){
+            toast.success("Уухай, чадлаа !!!")
+            setUpdated(false);
+        }
+        if(error){
+            toast.error(error);
+            clearError();
+        }
+    },[error,updated]);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -30,17 +44,15 @@ const NewAddress = () => {
             phoneNo,
             country
         };
-
-        console.log(newAddress)
-        addNewAddress(newAddress);
+        updateAddress(id,newAddress);
     };
 
-    useEffect(() => {
-        if (error) {
-            toast.error(error);
-            clearError();
-        }
-    }, [error]);
+    const deleteHandler = (e) => {
+        e.preventDefault();
+        deleteAddress(id);
+    };
+
+
 
     return (
         <>
@@ -55,7 +67,7 @@ const NewAddress = () => {
                             >
                                 <form onSubmit={submitHandler}>
                                     <h2 className="mb-5 text-2xl font-semibold">
-                                        Add new Address
+                                        Update Address
                                     </h2>
 
                                     <div className="mb-4 md:col-span-2">
@@ -112,7 +124,7 @@ const NewAddress = () => {
                                                 type="number"
                                                 placeholder="Type phone no here"
                                                 value={phoneNo}
-                                                onChange={(e) => setPhonoNo(e.target.value)}
+                                                onChange={(e) => setPhoneNo(e.target.value)}
                                             />
                                         </div>
                                     </div>
@@ -131,13 +143,21 @@ const NewAddress = () => {
                                             ))}
                                         </select>
                                     </div>
-
+                                    <div className=" grid md:grid-cols-2 gap-x-3">
                                     <button
                                         type="submit"
-                                        className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
-                                    >
-                                        Add
+                                        className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700">
+                                        Update
                                     </button>
+                                    <button
+                                        onClick={deleteHandler}
+                                        type="submit"
+                                        className="my-2 px-4 py-2 text-center w-full inline-block text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700">
+                                        Delete
+                                    </button>
+
+                                    </div>
+                        
                                 </form>
                             </div>
                         </main>
@@ -148,4 +168,4 @@ const NewAddress = () => {
     );
 };
 
-export default NewAddress;
+export default UpdateAddress;
