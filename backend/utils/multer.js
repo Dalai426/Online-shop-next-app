@@ -18,8 +18,11 @@ const fileFilter=(req,file,cb)=>{
         ({ error: "Unsupported file format. Upload only JPEG/JPG or PNG" }, false);
     }
 }
+
 const upload=multer({
     storage,
     limits:{fileSize:1024*1024},
-    fileFilter:
+    fileFilter
 });
+
+export default upload;

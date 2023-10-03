@@ -61,7 +61,7 @@ const Headers = () => {
                   <div className="flex items-center mb-4 space-x-3 mt-4 cursor-pointer">
                     <img
                       className="w-10 h-10 rounded-full"
-                      src={user?.avatar ? user?.avatar?.url : "/images/default_product.jpg"}
+                      src={user?.avatar ? user?.avatar : "/images/default_product.jpg"}
                     />
                     <div className="space-y-1 font-medium">
                       <p>

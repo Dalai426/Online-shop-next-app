@@ -13,9 +13,11 @@ export default function errorRet(err) {
         error = new ErrorHandler("Өөө, Талбар алдаатай !!!", 400);
     }
     if (err.code == 11000) {
-        const message = `Duplicate ${Object.keys(err.keyValue)} entered`;
+        const message = `Өөө, ${Object.keys(err.keyValue)} давхардсан байна !!!`;
         error = new ErrorHandler(message, 400);
     }
+
+    
     return NextResponse.json({
         success: false,
         error,

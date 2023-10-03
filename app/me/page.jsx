@@ -1,12 +1,13 @@
+ 
 import Profile from '@/components/auth/Profile'
 import axios from 'axios'
-import React from 'react'
-import { cookies } from "next/headers";
+import { cookies } from "next/dist/client/components/headers";
+
 
 const getAddresses=async ()=>{
 
-  const nextCookies = cookies();
-  const nextAuthSessionToken = nextCookies.get("next-auth.session-token");
+const cooks = cookies();
+const nextAuthSessionToken = cooks.get("next-auth.session-token");
 
   const { data } = await axios.get(`${process.env.API_URL}/api/address`, {
     headers: {
@@ -16,9 +17,12 @@ const getAddresses=async ()=>{
   return data?.addresses;
 }
 
+
 const page = async () => {
-  console.log("zailooo chii");
-  const addresses=await getAddresses();
+
+  const addresses=await getAddresses();  
+
+
   return (
     <Profile addresses={addresses}/>
   )

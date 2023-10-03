@@ -15,7 +15,7 @@ const Profile = ({addresses}) => {
         <div className="relative">
           <img
             className="w-16 h-16 rounded-full mr-4"
-            src={user?.avatar ? user?.avatar?.url : "/images/default_product.jpg"}
+            src={user?.avatar ? user?.avatar : "/images/default_product.jpg"}
             alt={user?.name}
           />
         </div>

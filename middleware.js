@@ -6,5 +6,5 @@ export default withAuth(
     });
 
 export const config={
-    matcher:["/me"]
+    matcher:["/me/:path*"]
 };

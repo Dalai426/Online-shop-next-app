@@ -10,6 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [updated, setUpdated] = useState(null);
+  const [loading, setLoading] = useState(null);
+  const [del,setDel]=useState(true);
 
   const router = useRouter();
 
@@ -59,10 +61,9 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (data?.address) {
-        setUpdated(true);
+        setUpdated(false);
         router.replace(`/address/${id}`);
       }
-
     } catch (error) {
       setError(error?.response?.data?.message);
     }
@@ -77,13 +78,56 @@ export const AuthProvider = ({ children }) => {
       );
 
       if (data?.success) {
+        setDel(current=>!current);
         router.push("/me");
       }
-
     } catch (error) {
       setError(error?.response?.data?.message);
     }
   }
+
+  const updateProfile=async (formData)=>{
+    try {
+      setLoading(true);
+      const { data } = await axios.put(
+        `${process.env.API_URL}/api/auth/me`,
+        formData,
+        {
+          headers:{
+            'Content-Type':'multipart/form-data'
+          }
+        }
+      );
+
+      console.log("da",data);
+
+      if (data?.user) {
+        loadUser();
+        setLoading(false);
+      }
+
+    } catch (error) {
+      setLoading(false);
+      setError(error?.response?.data?.message);
+    }
+  }
+
+
+  const loadUser = async () => {
+    try {
+      setLoading(true);
+
+      const { data } = await axios.get("/api/auth/session?update");
+
+      if (data?.user) {
+        setUser(data.user);
+        router.replace("/me");
+      }
+    } catch (error) {
+      setError(error?.response?.data?.message);
+    }
+  };
+
 
   const clearError = () => {
     setError(null);
@@ -94,14 +138,17 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         error,
+        loading,
+        updated,
         setUser,
         registerUser,
         clearError,
         addNewAddress,
         updateAddress,
         setUpdated,
-        updated,
-        deleteAddress
+        deleteAddress,
+        updateProfile,  
+        del
       }}
     >
       {children}
