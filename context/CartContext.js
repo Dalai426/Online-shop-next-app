@@ -21,36 +21,36 @@ export const CartProvider = ({children}) => {
         :[]
     )
  }
- const addItemToCart=async({
-    product,
-    name,
-    price,
-    image,
-    stock,
-    seller,
-    quantity=1
- })=>{
-    const item={
+    const addItemToCart = async ({
         product,
         name,
         price,
         image,
         stock,
         seller,
-        quantity
-    };
+        quantity = 1
+    }) => {
+        const item = {
+            product,
+            name,
+            price,
+            image,
+            stock,
+            seller,
+            quantity
+        };
 
-    const isItemExist=cart?.cartItems?.find((i)=>i.product===item.product);
-    let newCartItems;
-    if(isItemExist){
-        newCartItems=cart?.cartItems?.map((i)=>i.product===isItemExist.product?item:i);
-    }else{
-        newCartItems=[...(cart?.cartItems || []), item];
+        const isItemExist = cart?.cartItems?.find((i) => i.product === item.product);
+        let newCartItems;
+        if (isItemExist) {
+            newCartItems = cart?.cartItems?.map((i) => i.product === isItemExist.product ? item : i);
+        } else {
+            newCartItems = [...(cart?.cartItems || []), item];
+        }
+
+        localStorage.setItem("cart", JSON.stringify({ cartItems: newCartItems }));
+        setCartToState();
     }
-
-    localStorage.setItem("cart",JSON.stringify({cartItems: newCartItems}));
-    setCartToState();
- }
 
 
  const deleteItem=(id)=>{
@@ -58,12 +58,25 @@ export const CartProvider = ({children}) => {
     localStorage.setItem("cart",JSON.stringify({cartItems:newCartItems}));
     setCartToState();
 }
+
+const saveOnCheckOut=({amount,tax, total})=>{
+    const checkoutInfo={
+        amount,
+        tax,
+        total
+    }
+    const newCart={...cart, checkoutInfo}
+    localStorage.setItem("cart",JSON.stringify(newCart));
+    setCartToState();
+    router.push("/shipping")
+}
  
  return <CartContext.Provider
     value={{
         cart,
         addItemToCart,
-        deleteItem
+        deleteItem,
+        saveOnCheckOut
     }}
  >
  {children}

@@ -21,10 +21,20 @@ const Cart = () => {
         if (newQty <= 0) return;
         addItemToCart(item);
     }
-    const { addItemToCart, cart, deleteItem } = useContext(CartContext);
+    const { addItemToCart, cart, deleteItem, saveOnCheckOut} = useContext(CartContext);
     const amountWithoutTax = cart?.cartItems?.reduce((acc, item) => acc + item.quantity * item.price, 0);
     const taxAmount = (amountWithoutTax * 0.15).toFixed(2);
     const total = (Number(amountWithoutTax) + Number(taxAmount)).toFixed(2);
+
+
+    const checkoutHandler=()=>{
+        const data={
+            amount:amountWithoutTax,
+            tax:taxAmount,
+            total
+        }
+        saveOnCheckOut(data);
+    }
 
     return (
         <>
@@ -151,7 +161,8 @@ const Cart = () => {
                                         </li>
                                     </ul>
 
-                                    <a className="px-4 py-3 mb-2 inline-block text-lg w-full text-center font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 cursor-pointer">
+                                    <a className="px-4 py-3 mb-2 inline-block text-lg w-full text-center font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 cursor-pointer"
+                                    onClick={checkoutHandler}>
                                         Continue
                                     </a>
 
