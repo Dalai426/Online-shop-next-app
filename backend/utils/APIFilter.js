@@ -14,10 +14,10 @@ class APIFilters{
         this.query = this.query.find({ ...keyword });
         return this;
     }
+
     filter(){
         const queryCopy=Object.fromEntries(this.queryStr.entries());
 
-        
         const removeFields=['keyword','page'];
         removeFields.forEach((el)=>{delete queryCopy[el]});
 

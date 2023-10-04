@@ -4,6 +4,7 @@ import Link from "next/link";
 import BreadCrumbs from "../layouts/BreadCrumbs";
 import CartContext from "@/context/CartContext";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 
 const Shipping = ({ addresses }) => {
@@ -13,16 +14,22 @@ const Shipping = ({ addresses }) => {
     const [shippingInfo,setShippingInfo]=useState("");
     
     const setShippingAddress=(address)=>{
-        setShippingAddress(address._id);
+        setShippingInfo(address._id);
     }
 
-    const checkoutHandler=async ()=>{
-        if(!shippingInfo){
+    const checkoutHandler = async () => {
+        if (!shippingInfo) {
             return toast.error("Өөө, Захиалга хийх хаягаа сонгоно уу !!!")
-        }else{
-
         }
 
+        const { data } = await axios.post(
+            `${process.env.API_URL}/api/orders/webhook`,
+            {
+                items: cart?.cartItems,
+                shippingInfo,
+                checkoutInfo:cart?.checkoutInfo
+            }
+        );
     };
 
     const breadCrumbs = [
